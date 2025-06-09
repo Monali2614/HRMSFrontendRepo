@@ -1,73 +1,56 @@
-<!-- Form Heading -->
-<h2 style="margin-bottom: 15px; text-align: center; color: #007bff;">Apply for Leave</h2>
+<div class="apply-leave-container">
+  <h2>Apply for Leave</h2>
 
-<form [formGroup]="leaveForm" (ngSubmit)="createLeave()">
-  <label for="employeeId">Employee ID</label>
-  <input id="employeeId" formControlName="employeeId" placeholder="Employee ID">
-  <div *ngIf="leaveForm.get('employeeId')?.invalid && leaveForm.get('employeeId')?.touched" class="error">
-    Employee ID is required.
-  </div>
+  <form [formGroup]="leaveForm" (ngSubmit)="submitForm()">
+    <div>
+      <label for="employeeId">Employee ID:</label>
+      <input id="employeeId" type="number" formControlName="employeeId" />
+    </div>
 
-  <label for="leaveType">Leave Type</label>
-  <input id="leaveType" formControlName="leaveType" placeholder="Leave Type">
-  <div *ngIf="leaveForm.get('leaveType')?.invalid && leaveForm.get('leaveType')?.touched" class="error">
-    Leave Type is required.
-  </div>
+    <div>
+      <label for="fromDate">From Date:</label>
+      <input id="fromDate" type="date" formControlName="fromDate" />
+    </div>
 
-  <label for="fromDate">From Date</label>
-  <input type="date" id="fromDate" formControlName="fromDate">
-  <div *ngIf="leaveForm.get('fromDate')?.invalid && leaveForm.get('fromDate')?.touched" class="error">
-    From Date is required.
-  </div>
+    <div>
+      <label for="toDate">To Date:</label>
+      <input id="toDate" type="date" formControlName="toDate" />
+    </div>
 
-  <label for="toDate">To Date</label>
-  <input type="date" id="toDate" formControlName="toDate">
-  <div *ngIf="leaveForm.get('toDate')?.invalid && leaveForm.get('toDate')?.touched" class="error">
-    To Date is required.
-  </div>
+    <div>
+      <label for="reason">Reason:</label>
+      <textarea id="reason" formControlName="reason"></textarea>
+    </div>
 
-  <label for="reason">Reason</label>
-  <input id="reason" formControlName="reason" placeholder="Reason">
-  <div *ngIf="leaveForm.get('reason')?.invalid && leaveForm.get('reason')?.touched" class="error">
-    Reason is required.
-  </div>
+    <div>
+      <label for="applyingTo">Applying To (Manager Email):</label>
+      <input id="applyingTo" type="email" formControlName="applyingTo" />
+    </div>
 
-  <button type="submit" [disabled]="leaveForm.invalid">➕ Submit Leave</button>
-</form>
+    <div>
+      <label for="ccTo">CC To (Comma Separated Emails):</label>
+      <input id="ccTo" type="text" formControlName="ccTo" />
+    </div>
 
-<!-- Leave Table Heading -->
-<h2 style="margin-top: 40px; text-align: center; color: #007bff;">Leave Requests</h2>
+    <div>
+      <label for="contactDetails">Contact Details:</label>
+      <input id="contactDetails" type="text" formControlName="contactDetails" />
+    </div>
 
-<div class="table-container">
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Emp ID</th>
-        <th>Type</th>
-        <th>From</th>
-        <th>To</th>
-        <th>Reason</th>
-        <th>Status</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let leave of leaves">
-        <td>{{ leave.leaveId }}</td>
-        <td>{{ leave.employeeId }}</td>
-        <td>{{ leave.leaveType }}</td>
-        <td>{{ leave.fromDate | date:'shortDate' }}</td>
-        <td>{{ leave.toDate | date:'shortDate' }}</td>
-        <td>{{ leave.reason }}</td>
-        <td><span class="status" [ngClass]="leave.status.toLowerCase()">{{ leave.status }}</span></td>
-        <td>
-          <button class="approve" (click)="updateStatus(leave.leaveId!, 'APPROVED')">✔️</button>
-          <button class="reject" (click)="updateStatus(leave.leaveId!, 'REJECTED')">❌</button>
-          <button class="delete" (click)="confirmDelete(leave.leaveId!)">🗑️</button>
+    <div>
+      <label for="leaveType">Leave Type:</label>
+      <select id="leaveType" formControlName="leaveType">
+        <option *ngFor="let type of leaveTypes" [value]="type">{{ type }}</option>
+      </select>
+    </div>
 
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <div>
+      <label for="file">Attachment (optional):</label>
+      <input id="file" type="file" (change)="onFileChange($event)" />
+    </div>
+
+    <div>
+      <button type="submit" [disabled]="leaveForm.invalid">Submit Leave Request</button>
+    </div>
+  </form>
 </div>

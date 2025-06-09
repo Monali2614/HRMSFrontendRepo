@@ -1,0 +1,9 @@
+<tr *ngFor="let leave of leaves">
+  <td>{{ leave.leaveId }}</td>
+  <td>{{ leave.reason }}</td>
+  <td>{{ leave.status }}</td>
+  <td>
+    <button (click)="approveLeave(leave.leaveId!)">Approve</button>
+    <!-- added ! to tell TS leaveId won't be undefined -->
+  </td>
+</tr>
